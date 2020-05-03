@@ -18,6 +18,12 @@ spring:
     port: ${RABBIT_PORT:5672}
     username: ${RABBITMQ_DEFAULT_USER:root}
     password: ${RABBITMQ_DEFAULT_PASS:root}
+  security:
+    # oauth2配置
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://${AUTH_SERVICE_HOST:localhost}:9182/v1/authentication/jwks.json
 #mybatis
 mybatis:
   type-aliases-package: com.github.tangyi.gateway.module
@@ -59,6 +65,29 @@ swagger:
     - exam-service
     - auth-service
     - msc-service
+ignore:
+  urls:
+    - /
+    - /error
+    - /favicon.ico
+    - /actuator/**
+    - /api/auth/**
+    - /api/user/**
+    - /api/exam/**
+    - /api/msc/**
+    - /health
+    - /metrics/**
+    - /loggers/**
+# 演示环境
+preview:
+  ignores:
+    - api/auth  # 授权服务
+    - anonymousUser
+    - updateInfo
+    - updateAvatar
+    - attachment
+    - api/exam  # 考试服务
+    - api/msc
 # 集群ID生成配置
 cluster:
   workId: ${CLUSTER_WORKID:1}
